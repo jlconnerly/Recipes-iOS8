@@ -10,26 +10,36 @@ import UIKit
 
 class MainViewController: UIViewController {
 
-    @IBAction func searchTextField(_ sender: UITextField) {
-    }
     
+    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    
+    var recipes: [Recipe] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
 
-    /*
+    //
     // MARK: - Navigation
+    //
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowDetailSegue" {
+            guard let detailVC  = segue.destination as? RecipeDetailViewController,
+                  let indexPath = tableView.indexPathForSelectedRow else { return }
+            let recipe          = recipes[indexPath.row]
+            detailVC.recipe     = recipe
+            
+        }
     }
-    */
+    
+    
     @IBAction func editingDidEndOnSearch(_ sender: UITextField) {
     }
     
@@ -37,11 +47,14 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        return recipes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeCell", for: indexPath)
+        let recipe = recipes[indexPath.row]
+        cell.textLabel?.text = recipe.name
+         return cell
     }
 }
 
