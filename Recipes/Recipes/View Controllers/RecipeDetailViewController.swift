@@ -2,16 +2,20 @@
 //  RecipeDetailViewController.swift
 //  Recipes
 //
-//  Created by Jake Connerly on 8/5/19.
+//  Created by Jake Connerly on 6/17/19.
 //  Copyright © 2019 Lambda Inc. All rights reserved.
 //
 
 import UIKit
 
 class RecipeDetailViewController: UIViewController {
-
+    
+    //
+    // MARK: - Outlets and Properties
+    //
+    
     @IBOutlet weak var recipeNameLabel: UILabel!
-    @IBOutlet weak var detailTextView: UITextView!
+    @IBOutlet weak var recipeTextView: UITextView!
     
     var recipe: Recipe? {
         didSet {
@@ -19,18 +23,24 @@ class RecipeDetailViewController: UIViewController {
         }
     }
     
+    //
+    //MARK: - View Lifecycle
+    //
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         updateViews()
     }
     
+    //
+    // MARK: - Methods
+    //
+    
     func updateViews() {
-        
         guard isViewLoaded,
               let recipe = recipe else { return }
-        recipeNameLabel.text = recipe.name
-        detailTextView.text = recipe.instructions
+            recipeNameLabel?.text = recipe.name
+            recipeTextView?.text = recipe.instructions
     }
 
     /*
